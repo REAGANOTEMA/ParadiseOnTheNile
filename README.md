@@ -5,8 +5,14 @@ Built by **ReaganSoft Innovation Limited, Uganda**.
 Enquiries: WhatsApp **+256 772 514 889**.
 
 ## Files
-- `index.html` — fully self-contained page (HTML + CSS + JS + inline SVG).
-  No build step, no dependencies. Works by double-clicking the file or on any static host.
+- `index.html` — single-page site (HTML + CSS + JS). No build step, no dependencies.
+  Works by double-clicking the file or on any static host.
+- `images/hotel.webp` — hero photograph of Paradise on the Nile Hotel used in the
+  "Sanctuary Window" feature (replace it with an updated photo anytime).
+- `images/meeting room.webp` — additional hotel photo (currently unused on the page;
+  safe to use later or delete).
+- `images/reagansoftinnovation-logo.jpeg` — ReaganSoft Innovation Limited logo used in
+  the header badge and footer credit.
 
 ## Launch date
 - Automatic countdown to **Friday, 9 October 2026 at 12:00 PM (noon) Kampala time (UTC+3)**.
@@ -27,7 +33,8 @@ Use an instant on the UTC clock (Kampala is UTC+3, so 12:00 PM Kampala = `09:00Z
   or desyncs, and never goes negative — after the target passes it switches to a "We're live!"
   state.
 - The only social call-to-action is **WhatsApp** (`wa.me/256772514889`) with a prefilled
-  message. No other social links.
+  message. The same number serves both hotel enquiries and developer contact
+  (ReaganSoft) — the developer credit in the header and footer also links to it.
 - Google Fonts (Cormorant Garamond + Jost) load from the web but gracefully degrade to
   system fonts if offline.
 - Accessible: `role="timer"`, `aria-live`, skip-link, semantic landmarks, reduced-motion support.
