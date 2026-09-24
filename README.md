@@ -1,4 +1,4 @@
-# Paradise on the Nile Hotel — Coming Soon Page
+# Paradise on the Nile Hotel, Coming Soon Page
 
 Temporary launch page for **Paradise on the Nile Hotel, Jinja, Uganda**.
 Built by **ReaganSoft Innovation Limited, Uganda**.
@@ -13,6 +13,13 @@ Enquiries: WhatsApp **+256 772 514 889**.
   safe to use later or delete).
 - `images/reagansoftinnovation-logo.jpeg` — ReaganSoft Innovation Limited logo used in
   the header badge and footer credit.
+
+## Launch plan
+- The website goes live (countdown) on **Friday, 9 October 2026 at 12:00 PM (noon)
+  Kampala time (UTC+3)**.
+- After the site is up, the full system and mobile apps take about **22 weeks** to
+  complete, and will then appear on the **Apple App Store** and **Google Play**
+  (estimated around March 2027).
 
 ## Launch date
 - Automatic countdown to **Friday, 9 October 2026 at 12:00 PM (noon) Kampala time (UTC+3)**.
@@ -30,11 +37,11 @@ Use an instant on the UTC clock (Kampala is UTC+3, so 12:00 PM Kampala = `09:00Z
 
 ### Notes
 - The countdown re-reads the wall clock on every tick (every 250 ms), so it never drifts
-  or desyncs, and never goes negative — after the target passes it switches to a "We're live!"
+  or desyncs, and never goes negative. After the target passes it switches to a "We're live!"
   state.
 - The only social call-to-action is **WhatsApp** (`wa.me/256772514889`) with a prefilled
   message. The same number serves both hotel enquiries and developer contact
-  (ReaganSoft) — the developer credit in the header and footer also links to it.
+  (ReaganSoft), and the developer credit in the header and footer also links to it.
 - Google Fonts (Cormorant Garamond + Jost) load from the web but gracefully degrade to
   system fonts if offline.
 - Accessible: `role="timer"`, `aria-live`, skip-link, semantic landmarks, reduced-motion support.
