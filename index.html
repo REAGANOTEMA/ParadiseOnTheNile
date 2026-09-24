@@ -9,7 +9,7 @@
      Launch: Friday, 9 October 2026, 12:00 PM (noon) Kampala (UTC+3)
      Target timestamp (absolute): 2026-10-09T09:00:00Z
      Developed by ReaganSoft Innovation Limited, Uganda ·
-     Enquiries: WhatsApp +256 772 514 889
+     Enquiries: WhatsApp +256 759 504 928
      Single self-contained file — inline CSS + JS + SVG. No assets.
      ============================================================ -->
 
@@ -130,6 +130,43 @@
   .grain {
     position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0.045;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  }
+
+  /* Slim gold hairline drifting along the very top of the page */
+  .topline {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 96;
+    background: linear-gradient(90deg,
+      transparent, rgba(242, 200, 121, 0.06) 12%, rgba(242, 200, 121, 0.9) 36%,
+      #ffe9b0 50%, rgba(232, 154, 60, 0.9) 64%, rgba(242, 200, 121, 0.06) 88%, transparent);
+    background-size: 220% 100%;
+    animation: topline 7s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes topline { to { background-position: 220% center; } }
+
+  /* Twinkling sky stars — only on larger screens */
+  .stars { display: none; }
+  .stars span {
+    position: absolute; width: 2px; height: 2px; border-radius: 50%;
+    background: rgba(255, 244, 214, 0.9);
+    box-shadow: 0 0 6px 1px rgba(242, 200, 121, 0.4);
+    opacity: 0;
+    animation: twk var(--t, 6s) ease-in-out infinite;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes twk { 0%, 100% { opacity: 0; } 45% { opacity: 0.85; } 55% { opacity: 0.4; } }
+
+  /* Slow-drifting sun glow rising from behind the hero */
+  .sun {
+    position: fixed; left: 50%; bottom: -30vh; z-index: -3;
+    width: 118vmin; height: 118vmin; transform: translateX(-50%);
+    background: radial-gradient(46% 46% at 50% 50%, rgba(242, 200, 121, 0.2), rgba(232, 154, 60, 0.08) 52%, transparent 72%);
+    pointer-events: none;
+    animation: sunDrift 16s ease-in-out infinite;
+  }
+  @keyframes sunDrift {
+    0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+    50%      { transform: translateX(-45%) translateY(-18px) scale(1.05); }
   }
 
   /* Fireflies drifting over the page */
@@ -253,7 +290,22 @@
     content: ""; position: absolute; left: 50%; top: 50%;
     width: 5px; height: 5px; transform: translate(-50%, -50%) rotate(45deg);
     background: var(--gold); opacity: 0.85;
+    animation: ornPulse 5s ease-in-out infinite;
   }
+  @keyframes ornPulse {
+    0%, 100% { opacity: 0.85; box-shadow: 0 0 0 0 rgba(242, 200, 121, 0); }
+    50%      { opacity: 1; box-shadow: 0 0 14px 2px rgba(242, 200, 121, 0.45); }
+  }
+
+  /* Slow gold shimmer across section titles */
+  .features h2.gold-shimmer, .apps h2.gold-shimmer {
+    background-image: linear-gradient(110deg, #eaf6f4 28%, #ffe9b0 42%, #f2c879 50%, #e89a3c 58%, #f2c879 66%, #eaf6f4 80%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent;
+    animation: shim 9s linear infinite;
+  }
+  .brand, h1, .features h2, .apps h2 { text-wrap: balance; }
 
   /* ---------- The Sanctuary Window ---------- */
   .window-wrap {
@@ -270,12 +322,20 @@
     background: #05151f;
     overflow: hidden;
     border: 1px solid rgba(255, 214, 150, 0.22);
+    perspective: 1250px;
     box-shadow:
       var(--shadow),
       0 0 0 1px rgba(255, 255, 255, 0.05),
       inset 0 0 60px rgba(0, 0, 0, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.09);
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
+      0 60px 120px -42px rgba(232, 154, 60, 0.22);
     isolation: isolate;
+  }
+
+  /* The photograph lives on its own 3D plane so the whole scene can tilt */
+  .win-scene {
+    position: absolute; inset: 0;
+    transform-style: preserve-3d;
   }
 
   .window::after {
@@ -376,6 +436,32 @@
     background: linear-gradient(90deg, transparent, rgba(200, 230, 255, 0.65), transparent);
     opacity: 0.6;
   }
+
+  /* Soft inner light that slowly breathes across each card */
+  .cd-glow {
+    position: absolute; left: 8%; right: 8%; top: -1px; height: 64px; z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(62% 100% at 50% 0%, rgba(170, 220, 255, 0.4), transparent 78%);
+    opacity: 0.25;
+    transform: translateY(0);
+    animation: orb 7s ease-in-out infinite;
+  }
+  @keyframes orb {
+    0%, 100% { transform: translateY(-4px) translateX(-6%); opacity: 0.2; }
+    50%      { transform: translateY(2px) translateX(6%); opacity: 0.55; }
+  }
+  .cd-num, .cd-label { position: relative; z-index: 1; }
+
+  /* A heartbeat when a digit ticks over */
+  .cd-card.tick {
+    box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 0 36px -6px rgba(120, 192, 255, 0.5);
+  }
+  .cd-card.tick .cd-num { animation: tickPop 0.34s ease-out; }
+  @keyframes tickPop {
+    0%   { transform: scale(1); }
+    32%  { transform: scale(1.07); }
+    100% { transform: scale(1); }
+  }
   .cd-card:hover {
     transform: perspective(700px) rotateX(4.5deg) rotateY(-5deg) translateY(-7px) scale(1.02);
     border-color: rgba(165, 216, 255, 0.6);
@@ -423,6 +509,17 @@
   .wa-btn:hover { transform: translateY(-3px); box-shadow: 0 24px 56px -10px rgba(37, 211, 102, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
   .wa-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
   .wa-btn svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .wa-btn { overflow: hidden; }
+  .wa-btn::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.55) 50%, transparent 58%);
+    background-size: 260% 100%; background-position: 135% 0;
+    transition: background-position 0.9s var(--ease), opacity 0.6s;
+    opacity: 0; pointer-events: none;
+  }
+  .wa-btn:hover::after, .wa-btn:focus-visible::after {
+    opacity: 1; background-position: -35% 0;
+  }
 
   .wa-pulse { animation: waPulse 2.6s ease-out infinite; }
   @keyframes waPulse {
@@ -491,6 +588,10 @@
   }
   .f h3 { font-size: 1.08rem; font-weight: 500; color: var(--ink); margin-bottom: 7px; font-family: var(--serif); letter-spacing: 0.3px; }
   .f p { font-size: 0.9rem; font-weight: 300; color: var(--muted); }
+
+  /* Stagger-reveal wrapper keeps card hover lifts independent of the reveal */
+  .grid .f-in { display: flex; min-width: 0; }
+  .grid .f-in .f { flex: 1; width: 100%; }
 
   /* ---------- Mobile apps (coming soon) ---------- */
   .apps {
@@ -568,7 +669,12 @@
     color: var(--gold); margin-bottom: 12px;
   }
   .contact .row { margin: 5px 0; }
-  .contact .tel { color: var(--gold); font-weight: 500; letter-spacing: 1px; }
+  .contact .tel {
+    color: var(--gold); font-weight: 500; letter-spacing: 1px; text-decoration: none;
+    border-bottom: 1px solid rgba(242, 200, 121, 0.35);
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .contact .tel:hover { border-bottom-color: var(--gold); }
 
   footer {
     margin-top: clamp(34px, 5vh, 46px);
@@ -623,18 +729,40 @@
   .reveal.in { opacity: 1; transform: none; }
 
   /* ---------- Responsive ---------- */
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .stars { display: block; position: fixed; inset: 0 0 auto 0; height: 46vh; z-index: -3; pointer-events: none; overflow: hidden; }
+    .sun { display: block; }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .win-scene { will-change: transform; }
+  }
+
   @media (max-width: 560px) {
     header.top { flex-direction: column; align-items: center; text-align: center; gap: 12px; }
     .brand { font-size: 1.3rem; }
-    .count { gap: 9px; }
+    .devbadge {
+      white-space: normal; text-align: center; line-height: 1.5;
+      border-radius: 18px; font-size: 0.6rem; letter-spacing: 1.2px; padding: 8px 13px;
+    }
+    .devbadge .rg-logo { width: 19px; height: 19px; border-radius: 5px; }
+    .count { gap: 6px; flex-wrap: nowrap; }
     .cd-sep { display: none; }
-    .cd-card { min-width: 66px; padding: 16px 5px 13px; border-radius: 15px; }
+    .cd-card { flex: 1 1 0; min-width: 0; padding: 15px 4px 12px; border-radius: 15px; }
     .cd-card::before { inset: 4px; border-radius: 11px; }
-    .cd-num { font-size: 2.1rem; }
-    .cd-label { letter-spacing: 2px; font-size: 0.62rem; }
+    .cd-num { font-size: clamp(1.7rem, 9.4vw, 2.2rem); }
+    .cd-label { letter-spacing: 1.6px; font-size: 0.6rem; margin-top: 8px; }
+    .window { aspect-ratio: 4 / 3.1; border-radius: 20px; }
     .win-cap.l { display: none; }
     .win-cap.r { right: 12px; bottom: 11px; letter-spacing: 2.6px; }
     .ug-band { height: 10px; }
+  }
+
+  @media (max-width: 400px) {
+    .shell { padding-left: 14px; padding-right: 14px; }
+    .brand { font-size: 1.16rem; }
+    .devbadge { font-size: 0.56rem; letter-spacing: 0.9px; padding: 7px 11px; }
+    .win-cap.r { display: none; }
   }
 
   /* ---------- Reduced motion ---------- */
@@ -646,7 +774,9 @@
       scroll-behavior: auto !important;
     }
     .ff { opacity: 0 !important; }
+    .stars, .sun, .topline, .cd-glow { display: none !important; }
     .win-sheen { display: none !important; }
+    .win-scene { transform: none !important; }
     .win-img { animation: none !important; transform: none !important; }
     .marquee-track, .cd-hold { animation: none !important; }
     .reveal { opacity: 1 !important; transform: none !important; }
@@ -660,6 +790,20 @@
 <a class="skip-link" href="#main">Skip to content</a>
 
 <div class="grain" aria-hidden="true"></div>
+<div class="topline" aria-hidden="true"></div>
+<div class="stars" aria-hidden="true">
+  <span style="left:8%;  top:14%; --t:5.2s; --d:0s;"></span>
+  <span style="left:22%; top:6%;  --t:7.4s; --d:1.3s;"></span>
+  <span style="left:38%; top:18%; --t:6.1s; --d:0.6s;"></span>
+  <span style="left:55%; top:8%;  --t:8.8s; --d:2.1s;"></span>
+  <span style="left:71%; top:16%; --t:5.6s; --d:1.7s;"></span>
+  <span style="left:84%; top:10%; --t:7.9s; --d:0.9s;"></span>
+  <span style="left:92%; top:22%; --t:6.7s; --d:2.6s;"></span>
+  <span style="left:15%; top:30%; --t:9.2s; --d:3.1s;"></span>
+  <span style="left:64%; top:28%; --t:6.3s; --d:1.1s;"></span>
+  <span style="left:90%; top:4%;  --t:5.9s; --d:2.9s;"></span>
+</div>
+<div class="sun" aria-hidden="true"></div>
 <div class="sky" aria-hidden="true"></div>
 <div class="halo" aria-hidden="true"></div>
 <div class="halo-low" aria-hidden="true"></div>
@@ -677,7 +821,7 @@
       <span>Paradise <span class="dot">on the</span> Nile</span>
       <span class="sr-only">Paradise on the Nile Hotel</span>
     </div>
-<a class="devbadge" href="https://wa.me/256772514889?text=Hello%20ReaganSoft%2C%20I%27d%20like%20to%20enquire%20about%20your%20web%20development%20services." target="_blank" rel="noopener noreferrer" aria-label="Development by ReaganSoft Innovation Limited, chat with them on WhatsApp">
+<a class="devbadge" href="https://wa.me/256759504928?text=Hello%20ReaganSoft%2C%20I%27d%20like%20to%20enquire%20about%20your%20web%20development%20services." target="_blank" rel="noopener noreferrer" aria-label="Development by ReaganSoft Innovation Limited, chat with them on WhatsApp">
       <img class="rg-logo" src="images/reagansoftinnovation-logo.jpeg" alt="ReaganSoft Innovation Limited logo" width="22" height="22" decoding="async" />
       <span class="rgso">RGSO</span><span class="sep" aria-hidden="true"></span> Development by ReaganSoft Innovation Ltd.
       <svg class="wa-ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24 0 4.55-3.69 8.24-8.23 8.24Zm4.52-6.16c-.25-.13-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.25-.64.8-.78.97-.14.17-.29.19-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.13.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.29Z"/></svg>
@@ -698,7 +842,9 @@
     <!-- ================= THE SANCTUARY WINDOW ================= -->
     <figure class="window-wrap reveal" style="--rd:0.2s">
       <div class="window">
-        <img class="win-img" src="images/hotel.webp" alt="Paradise on the Nile Hotel, Jinja - a golden-hour view across the River Nile" width="1600" height="700" fetchpriority="high" decoding="async" />
+        <div class="win-scene">
+          <img class="win-img" src="images/hotel.webp" alt="Paradise on the Nile Hotel, Jinja - a golden-hour view across the River Nile" width="1600" height="700" fetchpriority="high" decoding="async" />
+        </div>
 
         <div class="win-glass" aria-hidden="true"></div>
         <div class="win-vig" aria-hidden="true"></div>
@@ -712,13 +858,13 @@
 
     <!-- ================= COUNTDOWN ================= -->
     <div class="count reveal" id="countdown" role="timer" aria-live="polite" aria-label="Time remaining until launch, Friday 9 October 2026 at 12:00 PM" style="--rd:0.15s">
-      <div class="cd-hold"><div class="cd-card"><div class="cd-num" id="cd-days">--</div><div class="cd-label">Days</div></div></div>
+      <div class="cd-hold"><div class="cd-card"><span class="cd-glow" aria-hidden="true"></span><div class="cd-num" id="cd-days">--</div><div class="cd-label">Days</div></div></div>
       <div class="cd-sep" aria-hidden="true"></div>
-      <div class="cd-hold"><div class="cd-card"><div class="cd-num" id="cd-hours">--</div><div class="cd-label">Hours</div></div></div>
+      <div class="cd-hold"><div class="cd-card"><span class="cd-glow" aria-hidden="true"></span><div class="cd-num" id="cd-hours">--</div><div class="cd-label">Hours</div></div></div>
       <div class="cd-sep" aria-hidden="true"></div>
-      <div class="cd-hold"><div class="cd-card"><div class="cd-num" id="cd-mins">--</div><div class="cd-label">Minutes</div></div></div>
+      <div class="cd-hold"><div class="cd-card"><span class="cd-glow" aria-hidden="true"></span><div class="cd-num" id="cd-mins">--</div><div class="cd-label">Minutes</div></div></div>
       <div class="cd-sep" aria-hidden="true"></div>
-      <div class="cd-hold"><div class="cd-card"><div class="cd-num" id="cd-secs">--</div><div class="cd-label">Seconds</div></div></div>
+      <div class="cd-hold"><div class="cd-card"><span class="cd-glow" aria-hidden="true"></span><div class="cd-num" id="cd-secs">--</div><div class="cd-label">Seconds</div></div></div>
     </div>
 
     <div id="launch-time" class="live-note reveal" style="--rd:0.3s">
@@ -727,7 +873,7 @@
 
     <!-- ================= WHATSAPP ================= -->
     <div class="wa-wrap reveal" style="--rd:0.15s">
-      <a class="wa-btn wa-pulse" href="https://wa.me/256772514889?text=Hello%2C%20I%27m%20interested%20in%20Paradise%20on%20the%20Nile%20Hotel%2C%20I%20have%20a%20question." target="_blank" rel="noopener noreferrer" aria-label="Chat with Paradise on the Nile Hotel on WhatsApp">
+      <a class="wa-btn wa-pulse" href="https://wa.me/256759504928?text=Hello%2C%20I%27m%20interested%20in%20Paradise%20on%20the%20Nile%20Hotel%2C%20I%20have%20a%20question." target="_blank" rel="noopener noreferrer" aria-label="Chat with Paradise on the Nile Hotel on WhatsApp">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24 0 4.55-3.69 8.24-8.23 8.24Zm4.52-6.16c-.25-.13-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.25-.64.8-.78.97-.14.17-.29.19-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.13.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.29Z"/>
         </svg>
@@ -745,45 +891,45 @@
     </div>
 
     <!-- ================= FEATURES ================= -->
-    <section class="features reveal" aria-labelledby="features-title" style="--rd:0.1s">
-      <h2 id="features-title">What’s coming with the new site</h2>
-      <p class="sub">A quick look at what’s on its way</p>
+    <section class="features" aria-labelledby="features-title">
+      <h2 id="features-title" class="gold-shimmer reveal" style="--rd:0.05s">What’s coming with the new site</h2>
+      <p class="sub reveal" style="--rd:0.12s">A quick look at what’s on its way</p>
       <div class="grid">
-        <div class="f">
+        <div class="f-in reveal" style="--rd:0.15s"><div class="f">
           <span class="ic" aria-hidden="true">
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h6v10H3zM15 7h6v10h-6zM9 12h6" stroke-linecap="round"/><path d="M6 4H4v6M18 4h2v6M6 20H4v-6M18 20h2v-6" stroke-linecap="round"/></svg>
           </span>
           <h3>Online booking</h3>
           <p>See what’s free and lock in your riverside room in a couple of clicks.</p>
-        </div>
-        <div class="f">
+        </div></div>
+        <div class="f-in reveal" style="--rd:0.25s"><div class="f">
           <span class="ic" aria-hidden="true">
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2" stroke-linecap="round"/></svg>
           </span>
           <h3>Rooms &amp; rates</h3>
           <p>Browse every suite with honest photos, current rates and seasonal deals.</p>
-        </div>
-        <div class="f">
+        </div></div>
+        <div class="f-in reveal" style="--rd:0.35s"><div class="f">
           <span class="ic" aria-hidden="true">
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 11h3l2.5-5 3.5 9 2-4h11l-2 6H4z" stroke-linejoin="round" stroke-linecap="round"/><circle cx="7" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
           </span>
           <h3>Restaurant</h3>
           <p>Menus, Nile-side dinners and reservations, all in one place.</p>
-        </div>
-        <div class="f">
+        </div></div>
+        <div class="f-in reveal" style="--rd:0.45s"><div class="f">
           <span class="ic" aria-hidden="true">
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l9 5-9 5-9-5 9-5z" stroke-linejoin="round"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5" stroke-linejoin="round"/></svg>
           </span>
           <h3>Events &amp; offers</h3>
           <p>Weddings, packages and the occasional seasonal special worth travelling for.</p>
-        </div>
+        </div></div>
       </div>
     </section>
 
     <!-- ================= MOBILE APPS ================= -->
     <section class="apps reveal" aria-labelledby="apps-title" style="--rd:0.1s">
       <p class="sub">The apps are next</p>
-      <h2 id="apps-title">Paradise on the Nile, on your phone</h2>
+      <h2 id="apps-title" class="gold-shimmer">Paradise on the Nile, on your phone</h2>
       <p class="apps-copy">This website is just the beginning. Once it is live, the full system and our mobile apps will take about <b>22 weeks</b> to finish, and then you will find us on the <b>Apple App Store</b> and <b>Google Play</b>. Booking, menus, events and easy directions to our door, all from your phone.</p>
       <div class="stores">
         <div class="store">
@@ -807,18 +953,18 @@
       <div class="h">Find us by the Nile</div>
       <div class="row">Paradise on the Nile Hotel, Plot 42 Lakeside Rd, Jinja, Uganda</div>
       <div class="row">Just a short stroll from the source of the great River Nile.</div>
-      <div class="row">WhatsApp &amp; Phone: <span class="tel">+256 772 514 889</span></div>
+      <div class="row">WhatsApp &amp; Phone: <a class="tel" href="https://wa.me/256759504928" target="_blank" rel="noopener noreferrer">+256 759 504 928</a></div>
     </div>
 
     <footer class="reveal" role="contentinfo" style="--rd:0.1s">
       <div>© 2026 Paradise on the Nile Hotel. All rights reserved.</div>
       <div>
-        <a class="rg" href="https://wa.me/256772514889?text=Hello%20ReaganSoft%2C%20I%27d%20like%20to%20enquire%20about%20your%20web%20development%20services." target="_blank" rel="noopener noreferrer" aria-label="Built by ReaganSoft Innovation Limited, Uganda, chat with them on WhatsApp">
+        <a class="rg" href="https://wa.me/256759504928?text=Hello%20ReaganSoft%2C%20I%27d%20like%20to%20enquire%20about%20your%20web%20development%20services." target="_blank" rel="noopener noreferrer" aria-label="Built by ReaganSoft Innovation Limited, Uganda, chat with them on WhatsApp">
         <span class="mono" aria-hidden="true"><img src="images/reagansoftinnovation-logo.jpeg" alt="" width="30" height="30" decoding="async" /></span>
         Built by ReaganSoft Innovation Limited, Uganda
         </a>
       </div>
-      <small>Software Engineering &amp; Innovation, <a class="rg-num" href="https://wa.me/256772514889" target="_blank" rel="noopener noreferrer">WhatsApp +256 772 514 889</a></small>
+      <small>Software Engineering &amp; Innovation, <a class="rg-num" href="https://wa.me/256759504928" target="_blank" rel="noopener noreferrer">WhatsApp +256 759 504 928</a></small>
     </footer>
   </main>
 </div>
@@ -872,6 +1018,20 @@
 
     function pad2(n) { return (n < 10 ? "0" : "") + n; }
 
+    var lastTicks = { mins: "", secs: "" };
+
+    function pulseIfChanged(el, val, key) {
+      var str = pad2(val);
+      if (str === lastTicks[key]) return;
+      lastTicks[key] = str;
+      var card = el.closest(".cd-card");
+      if (!card) return;
+      card.classList.remove("tick");
+      void card.offsetWidth; /* restart the animation */
+      card.classList.add("tick");
+      setTimeout(function () { card.classList.remove("tick"); }, 360);
+    }
+
     function render() {
       var msLeft = TARGET_MS - Date.now(); // read wall clock every tick — never desyncs
 
@@ -890,6 +1050,9 @@
       hoursEl.textContent = pad2(hours);
       minsEl.textContent  = pad2(mins);
       secsEl.textContent  = pad2(secs);
+
+      pulseIfChanged(minsEl, mins, "mins");
+      pulseIfChanged(secsEl, secs, "secs");
     }
 
     function showLive() {
@@ -913,6 +1076,36 @@
     window.addEventListener("pageshow", function (e) {
       if (e.persisted) render();
     });
+
+    /* ============================================================
+       GENTLE PARALLAX TILT — the sanctuary window (desktop pointer)
+       Transform-only, so it stays buttery on GPUs. Skipped on touch
+       devices and when the user prefers reduced motion.
+    ============================================================ */
+    var scene = document.querySelector(".win-scene");
+    var frameEl = document.querySelector(".window-wrap");
+    if (scene && frameEl && !reduceMotion &&
+        window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      var tiltRAF = null;
+      frameEl.addEventListener("pointermove", function (e) {
+        if (tiltRAF !== null) return;
+        tiltRAF = requestAnimationFrame(function () {
+          tiltRAF = null;
+          var r = frameEl.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width - 0.5;
+          var py = (e.clientY - r.top) / r.height - 0.5;
+          scene.style.transition = "transform 0.14s ease-out";
+          scene.style.transform =
+            "rotateY(" + (px * 3.2).toFixed(2) + "deg) " +
+            "rotateX(" + (-py * 2.4).toFixed(2) + "deg) " +
+            "translateZ(12px)";
+        });
+      });
+      frameEl.addEventListener("pointerleave", function () {
+        scene.style.transition = "transform 1.2s cubic-bezier(0.22, 0.61, 0.21, 1)";
+        scene.style.transform = "rotateY(0deg) rotateX(0deg) translateZ(0)";
+      });
+    }
 
     /* ============================================================
        REVEAL ON SCROLL
